@@ -18,14 +18,40 @@ def accept_wrapper(sock):
     sel.register(conn, selectors.EVENT_READ, data=message)
 
 
+if os.path.isfile("Transactions.txt") is True:
+    with open("Transactions.txt", "a") as w1:
+        w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " ARK Socket Server has been started.")
+else:
+    with open("Transactions.txt", "w") as w1:
+        w1.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " ARK Socket Server has been started.")
+
 HOST = ''
 PORT = 27888
 
 sel = selectors.DefaultSelector()
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+print("Socket created")
+with open("Transactions.txt", "a") as w1:
+    w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket created.")
 # Avoid bind() exception: OSError: [Errno 48] Address already in use
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+try:
+    sock.bind((HOST, PORT))
+except socket.error as msg:
+    print("Bind failed. Error Code : " + str(msg[0]) + " Message " + msg[1])
+    with open("Transactions.txt", "a") as w1:
+        w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Bind failed. Error Code : " + str(msg[0]) + " Message " + msg[1])
+    sys.exit()
+
+sock.listen()
+sock.setblocking(False)
+print("Socket now listening")
+with open("Transactions.txt", "a") as w1:
+    w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket now listening")
+sel.register(sock, selectors.EVENTREAD, data=None)
+
 
 serverstate = False
 updatestate = False
@@ -202,12 +228,7 @@ def clientthread(connstream):
             fromaddr[1]) + " closed")
 
 
-if os.path.isfile("Transactions.txt") is True:
-    with open("Transactions.txt", "a") as w1:
-        w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " ARK Socket Server has been started.")
-else:
-    with open("Transactions.txt", "w") as w1:
-        w1.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " ARK Socket Server has been started.")
+
 
 
 
