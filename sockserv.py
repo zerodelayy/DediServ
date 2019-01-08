@@ -56,6 +56,16 @@ sel.register(sock, selectors.EVENT_READ, data=None)
 serverstate = False
 updatestate = False
 
+
+try:
+    while True:
+        [Placeholder]
+except KeyboardInterrupt:
+    print("Keyboard interaction detected, exiting")
+finally:
+    sel.close()
+
+
 def serverstatus():
     global serverstate
     tasklistr = os.popen("tasklist").read()
