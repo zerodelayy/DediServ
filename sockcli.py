@@ -44,7 +44,7 @@ while True:
         # Start The Center
         if usrin == "1":
             conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            conn.connect(("cbm.selfhost.eu", 27888))
+            conn.connect(("127.0.0.1", 27888))
             print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
             conn.send(b"start1")
             print("")
@@ -55,7 +55,7 @@ while True:
         # Start Scorched Earth
         if usrin == "2":
             conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            conn.connect(("cbm.selfhost.eu", 27888))
+            conn.connect(("127.0.0.1", 27888))
             print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
             conn.send(b"start2")
             print("")
@@ -66,7 +66,7 @@ while True:
         # Stop server
         if usrin == "3":
             conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            conn.connect(("cbm.selfhost.eu", 27888))
+            conn.connect(("127.0.0.1", 27888))
             print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
             conn.send(b"stop")
             print("")
@@ -77,7 +77,7 @@ while True:
         # Update The Center
         if usrin == "4":
             conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            conn.connect(("cbm.selfhost.eu", 27888))
+            conn.connect(("127.0.0.1", 27888))
             print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
             conn.send(b"update1")
             print("")
@@ -88,7 +88,7 @@ while True:
         # Update Scorched Earth
         if usrin == "5":
             conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            conn.connect(("cbm.selfhost.eu", 27888))
+            conn.connect(("127.0.0.1", 27888))
             print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
             conn.send(b"update2")
             print("")
@@ -99,7 +99,7 @@ while True:
         # Status check
         if usrin == "6":
             conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            conn.connect(("cbm.selfhost.eu", 27888))
+            conn.connect(("127.0.0.1", 27888))
             print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
             conn.send(b"status")
             print("")
