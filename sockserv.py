@@ -8,7 +8,14 @@ import subprocess
 from datetime import datetime
 import selectors
 import traceback
+import libserver
 
+def accept_wrapper(sock):
+    conn, addr = sock.accept()
+    print("Connected with " + addr[0] + ":" + str(addr[1]))
+    conn.setblocking(False)
+    message = libserver.Message(sel, conn, addr)
+    sel.register(conn, selectors.EVENT_READ, data=message)
 
 
 HOST = ''
