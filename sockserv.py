@@ -50,7 +50,7 @@ sock.setblocking(False)
 print("Socket now listening")
 with open("Transactions.txt", "a") as w1:
     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket now listening")
-sel.register(sock, selectors.EVENTREAD, data=None)
+sel.register(sock, selectors.EVENT_READ, data=None)
 
 
 serverstate = False
