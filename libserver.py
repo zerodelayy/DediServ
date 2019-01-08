@@ -17,3 +17,15 @@ class Message:
         self.request = None
         self.response_created = False
 
+    def _set_selector_events_mask(self, mode):
+        if mode == "r":
+            events = selectors.EVENT_READ
+        elif mode == "w":
+            events = selectors.EVENT_WRITE
+        elif mode == "rw":
+            events = selectors.EVENT_READ | selectors.EVENT_WRITE
+        else:
+            raise ValueError(f"Invalid events mask mode {repr(mode)}.")
+        self.selector.modify(self.sock, events, data=self)
+
+
