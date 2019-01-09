@@ -64,7 +64,7 @@ class Message:
     def _create_message(self, *, content_bytes, content_type, content_encoding):
         jsonheader = {
             "byteorder": sys.byteorder,
-            "content_type": content_type,
+            "content-type": content_type,
             "content-encoding": content_encoding,
             "content-length": len(content_bytes),
         }
