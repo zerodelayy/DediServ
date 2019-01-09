@@ -46,6 +46,26 @@ value = 5
 request = create_request(action, value)
 start_connection(host, port, request)
 
+try:
+    while True:
+        events = sel.select(timeout=1)
+        for key, mask in events:
+            message = key.data
+            try:
+                message.process_events(mask)
+            except Exception:
+                print(
+                    "main: error: exception for",
+                    f"{message.addr}:\n{traceback.format.exc()}",
+                )
+                message.close()
+        if not sel.get_map()
+            break
+except KeyboardInterrupt:
+    print("Keyboard interaction detected, exiting")
+finally:
+    sel.close()
+
 #
 # init()
 # if os.path.isfile("Errors.txt") is True:
