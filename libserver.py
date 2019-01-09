@@ -79,8 +79,85 @@ class Message:
         response = {
             "content_bytes": b"First 10 bytes of request: " + self.request[:10],
             "content_type": "binary/custom-serer-binary-type",
-            "content_enconding": "binary",
+            "content_encoding": "binary",
         }
         return response
 
+    def process_events(self, mask):
+        if mask & selectors.EVENT_READ:
+            self.read()
+        if mask & selectors.EVENT_WRITE:
+            self.write()
+
+    def read(self):
+        self._read()
+
+        if self._jsonheader_len is None:
+            self.process_protoheader()
+
+        if self._jsonheader_len is not None:
+            if self.jsonheader is None:
+                self.process_jsonheader()
+
+        if self.jsonheader:
+            if self.request is None:
+                self.process_request()
+
+    def write(self):
+        if self.request:
+            if not self.response_created:
+                self.create_response()
+
+        self.write()
+
+    def close(self):
+        print("Closing connection to {0}".format(self.addr))
+        try:
+            self.selector.unregister(self.sock)
+        except Exception as e:
+            print(
+                f"error: selector.unregister() exception for ",
+                f"{self.addr}: {repr(e)}",
+            )
+
+        try:
+            self.sock.close()
+        except OSError as e:
+            print(
+                f"error: socket.close() exception for",
+                f"{self.addr}: {repr(e)}",
+            )
+        finally:
+            self.sock = None
+
+    def process_protoheader(self):
+        hdrlen = 2
+        if len(self._recv_buffer) >= hdrlen:
+            self._jsonheader_len = struct.unpack(
+                ">H", self._recv_buffer[:hdrlen]
+            )[0]
+            self._recv_buffer = self._recv_buffer[hdrlen:]
+
+    def process_jsonheader(self):
+        hdrlen = self._jsonheader_len
+        if len(self._recv_buffer) >= hdrlen:
+            self.jsonheader = self._json_decode(
+                self._recv_buffer[:hdrlen], "utf-8"
+            )
+            self._recv_buffer = self._recv_buffer[hdrlen:]
+            for reqhdr in(
+                "byteorder",
+                "content-length",
+                "content-type",
+                "content-encoding",
+            ):
+                if reqhdr not in self.jsonheader:
+                    raise ValueError(f'Missing required header "{reqhdr}".')
+
+    def process_request(self):
+        content_len = self.jsonheader["content-length"]
+        if not len(self._recv_buffer) >= content_len:
+            return
+        data = self._recv_buffer[:content_len]
+        self._recv_buffer = self._recv_buffer[content_len:]
 
