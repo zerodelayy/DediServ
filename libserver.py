@@ -73,7 +73,20 @@ class Message:
         return message
 
     def _create_response_json_content(self):
-        #need to rewrite tutorial code to fit ARK Server Controls
+        action = self.request.get("action")
+        if action == "hello":
+            answer = "This works as intended"
+            content = {"result": answer}
+        else:
+            content = {"result": f'Error: invalid action "{action}".'}
+        content_encoding = "utf-8"
+        response = {
+            "content_bytes": self._json_encode(content, content_encoding),
+            "content_type": "text/json",
+            "content_encoding": content_encoding,
+        }
+        return response
+
 
     def _create_response_binary_content(self):
         response = {
@@ -160,4 +173,25 @@ class Message:
             return
         data = self._recv_buffer[:content_len]
         self._recv_buffer = self._recv_buffer[content_len:]
+        if self.jsonheader["content-type"] == "text/json":
+            encoding = self.jsonheader["content-encoding"]
+            self.request = self._json_decode(data, encoding)
+            print("Received Request {0} from {1}".format(repr(self.request),self.addr))
+        else:
+            self.request = data
+            print(
+                f'recevied {self.jsonheader["content-type"]} request from', self.addr,
+            )
+            self._set_selector_events_mask("w")
+
+    def create_response(self):
+        if self.jsonheader["content-type"] == "text/json":
+            response = self._create_response_json_content()
+        else:
+            response = self._create_response_binary_content()
+        message = self._create_message(**response)
+        self.response_created = True
+        self._send_buffer += message
+
+
 
