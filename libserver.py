@@ -75,7 +75,8 @@ class Message:
     def _create_response_json_content(self):
         action = self.request.get("action")
         if action == "hello":
-            answer = "This works as intended"
+            value = self.request.get("value")
+            answer = "This works as intended, your value was {0}".format(value)
             content = {"result": answer}
         else:
             content = {"result": f'Error: invalid action "{action}".'}
