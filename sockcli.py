@@ -59,7 +59,7 @@ try:
                     f"{message.addr}:\n{traceback.format.exc()}",
                 )
                 message.close()
-        if not sel.get_map()
+        if not sel.get_map():
             break
 except KeyboardInterrupt:
     print("Keyboard interaction detected, exiting")
