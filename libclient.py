@@ -148,7 +148,7 @@ class Message:
                 "content_type": content_type,
                 "content_encoding": content_encoding,
             }
-        message = self.create_message(**req)
+        message = self._create_message(**req)
         self._send_buffer += message
         self._request_queued = True
 
