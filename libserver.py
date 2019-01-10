@@ -5,6 +5,12 @@ import io
 import struct
 
 
+request_search = {
+    "scorch": "Start server",
+    "ark": "test",
+    "server": "running",
+}
+
 class Message:
     def __init__(self, selector, sock, addr):
         self.selector = selector
@@ -92,7 +98,7 @@ class Message:
     def _create_response_binary_content(self):
         response = {
             "content_bytes": b"First 10 bytes of request: " + self.request[:10],
-            "content_type": "binary/custom-serer-binary-type",
+            "content_type": "binary/custom-server-binary-type",
             "content_encoding": "binary",
         }
         return response
