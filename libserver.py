@@ -181,7 +181,7 @@ class Message:
         else:
             self.request = data
             print(
-                f'recevied {self.jsonheader["content-type"]} request from', self.addr,
+                f'Received {self.jsonheader["content-type"]} request from', self.addr,
             )
             self._set_selector_events_mask("w")
 
