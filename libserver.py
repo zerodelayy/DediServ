@@ -177,7 +177,7 @@ class Message:
         if self.jsonheader["content-type"] == "text/json":
             encoding = self.jsonheader["content-encoding"]
             self.request = self._json_decode(data, encoding)
-            print("Received Request {0} from {1}".format(repr(self.request),self.addr))
+            print("Received Request {0} from {1}".format(repr(self.request), self.addr))
         else:
             self.request = data
             print(
