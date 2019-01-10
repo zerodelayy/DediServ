@@ -2,7 +2,7 @@ NB: This project is currently undergoing refactoring and an upgrade as the codeb
 and there have been many improvements in the used libraries.
 
 A quick to-do list:
-- Implement a more robust multi-threaded framework for messaging
+- [COMPLETE] Implement a more robust multi-threaded framework for messaging
 - Upgrade the SSL implementation
 - Allow for management of multiple ARK Servers at the same time
 - Quality of Life Improvements.
