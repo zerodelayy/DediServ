@@ -5,12 +5,6 @@ import io
 import struct
 
 
-request_search = {
-    "morpheus": "2",
-    "ring": "3",
-    "test": "5",
-}
-
 class Message:
     def __init__(self, selector, sock, addr):
         self.selector = selector
