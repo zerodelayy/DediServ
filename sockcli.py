@@ -24,7 +24,7 @@ def create_request(action, value):
         )
     else:
         return dict(
-            type="binary/custom-cleint-binary-type",
+            type="binary/custom-client-binary-type",
             encoding="binary",
             content=bytes(action + value, encoding="utf-8"),
         )
