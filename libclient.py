@@ -61,7 +61,9 @@ class Message:
         tiow.close()
         return obj
 
-    def _create_message(self, *, content_bytes, content_type, content_encoding):
+    def _create_message(
+            self, *, content_bytes, content_type, content_encoding
+    ):
         jsonheader = {
             "byteorder": sys.byteorder,
             "content-type": content_type,
@@ -160,7 +162,6 @@ class Message:
             )[0]
             self._recv_buffer = self._recv_buffer[hdrlen:]
 
-
     def process_jsonheader(self):
         hdrlen = self._jsonheader_len
         if len(self._recv_buffer) >= hdrlen:
@@ -169,10 +170,10 @@ class Message:
             )
             self._recv_buffer = self._recv_buffer[hdrlen:]
             for reqhdr in (
-                "byteorder",
-                "content-length",
-                "content-type",
-                "content-encoding",
+                    "byteorder",
+                    "content-length",
+                    "content-type",
+                    "content-encoding",
             ):
                 if reqhdr not in self.jsonheader:
                     raise ValueError(f'Missing required header "{reqhdr}".')
@@ -186,7 +187,7 @@ class Message:
         if self.jsonheader["content-type"] == "text/json":
             encoding = self.jsonheader["content-encoding"]
             self.response = self._json_decode(data, encoding)
-            print("Received Response {0} from {1}".format(repr(self.response),self.addr))
+            print("Received Response {0} from {1}".format(repr(self.response), self.addr))
             self._process_response_json_content()
         else:
             self.response = data
