@@ -10,12 +10,16 @@ import selectors
 import traceback
 import libserver
 
+sel = selectors.DefaultSelector()
+
+
 def accept_wrapper(sock):
     conn, addr = sock.accept()
     print("Connected with " + addr[0] + ":" + str(addr[1]))
     conn.setblocking(False)
     message = libserver.Message(sel, conn, addr)
     sel.register(conn, selectors.EVENT_READ, data=message)
+
 
 def serverstatus():
     global serverstate
@@ -30,6 +34,7 @@ def serverstatus():
         print("Server Status is Stopped")
         with open("Transactions.txt", "a") as w1:
             w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Stopped")
+
 
 def updatestatus():
     global updatestate
@@ -53,10 +58,8 @@ else:
     with open("Transactions.txt", "w") as w1:
         w1.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " ARK Socket Server has been started.")
 
-HOST = ''
+HOST = '127.0.0.1'
 PORT = 27888
-
-sel = selectors.DefaultSelector()
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("Socket created")
@@ -70,7 +73,8 @@ try:
 except socket.error as msg:
     print("Bind failed. Error Code : " + str(msg[0]) + " Message " + msg[1])
     with open("Transactions.txt", "a") as w1:
-        w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Bind failed. Error Code : " + str(msg[0]) + " Message " + msg[1])
+        w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Bind failed. Error Code : " + str(
+            msg[0]) + " Message " + msg[1])
     sys.exit()
 
 sock.listen()
@@ -80,10 +84,8 @@ with open("Transactions.txt", "a") as w1:
     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket now listening")
 sel.register(sock, selectors.EVENT_READ, data=None)
 
-
 serverstate = False
 updatestate = False
-
 
 try:
     while True:
@@ -105,8 +107,6 @@ except KeyboardInterrupt:
     print("Keyboard interaction detected, exiting")
 finally:
     sel.close()
-
-
 
 # def clientthread(connstream):
 #     connstream.send(b'Welcome to the server! We are running version 0.3.2.')
@@ -251,9 +251,6 @@ finally:
 #             fromaddr[1]) + " closed")
 #
 #
-
-
-
 
 
 # context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)

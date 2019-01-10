@@ -5,6 +5,12 @@ import io
 import struct
 
 
+request_search = {
+    "morpheus": "Follow the white rabbit. \U0001f430",
+    "ring": "In the caves beneath the Misty Mountains. \U0001f48d",
+    "\U0001f436": "\U0001f43e Playing ball! \U0001f3d0",
+}
+
 class Message:
     def __init__(self, selector, sock, addr):
         self.selector = selector
@@ -41,7 +47,7 @@ class Message:
 
     def _write(self):
         if self._send_buffer:
-            print("Sending {0} to {1}".format(self._send_buffer, self.addr))
+            print("Sending", repr(self._send_buffer), "to", self.addr)
             try:
                 sent = self.sock.send(self._send_buffer)
             except BlockingIOError:
@@ -55,16 +61,20 @@ class Message:
         return json.dumps(obj, ensure_ascii=False).encode(encoding)
 
     def _json_decode(self, json_bytes, encoding):
-        tiow = io.TextIOWrapper(io.BytesIO(json_bytes), encoding=encoding, newline="")
+        tiow = io.TextIOWrapper(
+            io.BytesIO(json_bytes), encoding=encoding, newline=""
+        )
         obj = json.load(tiow)
         tiow.close()
         return obj
 
-    def _create_message(self, *, content_bytes, content_type, content_encoding):
+    def _create_message(
+            self, *, content_bytes, content_type, content_encoding
+    ):
         jsonheader = {
             "byteorder": sys.byteorder,
             "content-type": content_type,
-            "content_encoding": content_encoding,
+            "content-encoding": content_encoding,
             "content-length": len(content_bytes),
         }
         jsonheader_bytes = self._json_encode(jsonheader, "utf-8")
@@ -75,7 +85,8 @@ class Message:
     def _create_response_json_content(self):
         action = self.request.get("action")
         if action == "search":
-            answer = "It works"
+            query = self.request.get("value")
+            answer = request_search.get(query) or f'No match for "{query}".'
             content = {"result": answer}
         else:
             content = {"result": f'Error: invalid action "{action}".'}
@@ -90,7 +101,8 @@ class Message:
 
     def _create_response_binary_content(self):
         response = {
-            "content_bytes": b"First 10 bytes of request: " + self.request[:10],
+            "content_bytes": b"First 10 bytes of request: "
+            + self.request[:10],
             "content_type": "binary/custom-server-binary-type",
             "content_encoding": "binary",
         }
@@ -180,7 +192,8 @@ class Message:
         else:
             self.request = data
             print(
-                f'Received {self.jsonheader["content-type"]} request from', self.addr,
+                f'Received {self.jsonheader["content-type"]} request from',
+                self.addr,
             )
         self._set_selector_events_mask("w")
 

@@ -36,7 +36,7 @@ class Message:
             pass
         else:
             if data:
-                self._recv_buffer =+ data
+                self._recv_buffer += data
             else:
                 raise RuntimeError("Connection to Peer closed.")
 
