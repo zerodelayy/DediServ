@@ -15,6 +15,7 @@ import libclient
 
 sel = selectors.DefaultSelector()
 
+
 def create_request(action, value):
     if action == "hello":
         return dict(
@@ -28,6 +29,7 @@ def create_request(action, value):
             encoding="binary",
             content=bytes(action + value, encoding="utf-8"),
         )
+
 
 def start_connection(host, port, request):
     addr = (host, port)
