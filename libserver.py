@@ -182,7 +182,7 @@ class Message:
             print(
                 f'Received {self.jsonheader["content-type"]} request from', self.addr,
             )
-            self._set_selector_events_mask("w")
+        self._set_selector_events_mask("w")
 
     def create_response(self):
         if self.jsonheader["content-type"] == "text/json":
