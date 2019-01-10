@@ -17,7 +17,7 @@ sel = selectors.DefaultSelector()
 
 
 def create_request(action, value):
-    if action == "hello":
+    if action == "search":
         return dict(
             type="text/json",
             encoding="utf-8",
@@ -43,8 +43,7 @@ def start_connection(host, port, request):
 
 
 host, port = "127.0.0.1", 27888
-action = "hello"
-value = 5
+action, value = "search", "morpheus"
 request = create_request(action, value)
 start_connection(host, port, request)
 

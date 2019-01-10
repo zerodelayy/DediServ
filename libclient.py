@@ -42,7 +42,7 @@ class Message:
 
     def _write(self):
         if self._send_buffer:
-            print("Sending {0} to {1}".format(repr(self._send_buffer),self.addr))
+            print("Sending {0} to {1}".format(repr(self._send_buffer), self.addr))
             try:
                 sent = self.sock.send(self._send_buffer)
             except BlockingIOError:

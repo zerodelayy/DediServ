@@ -5,12 +5,6 @@ import io
 import struct
 
 
-request_search = {
-    "scorch": "Start server",
-    "ark": "test",
-    "server": "running",
-}
-
 class Message:
     def __init__(self, selector, sock, addr):
         self.selector = selector
@@ -80,9 +74,8 @@ class Message:
 
     def _create_response_json_content(self):
         action = self.request.get("action")
-        if action == "hello":
-            value = self.request.get("value")
-            answer = "This works as intended, your value was {0}".format(value)
+        if action == "search":
+            answer = "It works"
             content = {"result": answer}
         else:
             content = {"result": f'Error: invalid action "{action}".'}
