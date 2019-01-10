@@ -61,15 +61,15 @@ else:
 HOST = '127.0.0.1'
 PORT = 27888
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("Socket created")
 with open("Transactions.txt", "a") as w1:
     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket created.")
 # Avoid bind() exception: OSError: [Errno 48] Address already in use
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+lsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 try:
-    sock.bind((HOST, PORT))
+    lsock.bind((HOST, PORT))
 except socket.error as msg:
     print("Bind failed. Error Code : " + str(msg[0]) + " Message " + msg[1])
     with open("Transactions.txt", "a") as w1:
@@ -77,12 +77,13 @@ except socket.error as msg:
             msg[0]) + " Message " + msg[1])
     sys.exit()
 
-sock.listen()
-sock.setblocking(False)
+lsock.listen()
+lsock.setblocking(False)
 print("Socket now listening")
 with open("Transactions.txt", "a") as w1:
     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket now listening")
-sel.register(sock, selectors.EVENT_READ, data=None)
+
+sel.register(lsock, selectors.EVENT_READ, data=None)
 
 serverstate = False
 updatestate = False

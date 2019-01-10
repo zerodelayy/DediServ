@@ -6,9 +6,9 @@ import struct
 
 
 request_search = {
-    "morpheus": "Follow the white rabbit. \U0001f430",
-    "ring": "In the caves beneath the Misty Mountains. \U0001f48d",
-    "\U0001f436": "\U0001f43e Playing ball! \U0001f3d0",
+    "morpheus": "2",
+    "ring": "3",
+    "test": "5",
 }
 
 class Message:
@@ -85,8 +85,7 @@ class Message:
     def _create_response_json_content(self):
         action = self.request.get("action")
         if action == "search":
-            query = self.request.get("value")
-            answer = request_search.get(query) or f'No match for "{query}".'
+            answer = "It works"
             content = {"result": answer}
         else:
             content = {"result": f'Error: invalid action "{action}".'}
@@ -133,7 +132,7 @@ class Message:
             if not self.response_created:
                 self.create_response()
 
-        self.write()
+        self._write()
 
     def close(self):
         print("Closing connection to {0}".format(self.addr))
