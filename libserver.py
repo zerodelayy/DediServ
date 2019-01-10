@@ -78,7 +78,7 @@ class Message:
 
     def _create_response_json_content(self):
         action = self.request.get("action")
-        if action == "search":
+        if action == "center":
             answer = "It works"
             content = {"result": answer}
         else:
