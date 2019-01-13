@@ -9,8 +9,38 @@ from datetime import datetime
 import selectors
 import traceback
 import libserver
+import signal
 
 sel = selectors.DefaultSelector()
+
+server_list = {
+    "Island": 0,
+    "Center": 0,
+    "Scorched": 0,
+    "Ragnarok": 0,
+    "Aberration": 0,
+    "Extinction": 0
+}
+
+
+def launch_server(server_name, path):
+    try:
+        servproc = subprocess.Popen(path, shell=False)
+        server_list[server_name] = servproc.pid
+        print("Server {0} launched with PID {1}.".format(server_name, servproc.pid))
+    except Exception:
+        print(
+            "main error: exception for",
+            f"{message.addr}:\n{traceback.format_exc()}",
+        )
+
+
+def kill_server(server_name):
+    if server_list.get(server_name) != 0:
+        os.kill((server_list.get(server_name)), signal.SIGTERM)
+        print("Server {0} has been terminated.".format(server_name))
+    else:
+        print("Server {0} cannot be terminated as it is not currently running.".format(server_name))
 
 
 def accept_wrapper(sock):
