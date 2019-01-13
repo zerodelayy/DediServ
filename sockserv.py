@@ -28,19 +28,24 @@ def launch_server(server_name, path):
         servproc = subprocess.Popen(path, shell=False)
         server_list[server_name] = servproc.pid
         print("Server {0} launched with PID {1}.".format(server_name, servproc.pid))
-    except Exception:
-        print(
-            "main error: exception for",
-            f"{message.addr}:\n{traceback.format_exc()}",
-        )
+        with open("Transactions.txt", "a") as w1:
+            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} launched with PID {1}.".format(server_name, servproc.pid))
+    except Exception as ex:
+        print("main error: {0}".format(ex))
+        with open("Transactions.txt", "a") as w1:
+            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "main error:{0}".format(ex))
 
 
 def kill_server(server_name):
     if server_list.get(server_name) != 0:
         os.kill((server_list.get(server_name)), signal.SIGTERM)
         print("Server {0} has been terminated.".format(server_name))
+        with open("Transactions.txt", "a") as w1:
+            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} has been terminated.".format(server_name))
     else:
         print("Server {0} cannot be terminated as it is not currently running.".format(server_name))
+        with open("Transactions.txt", "a") as w1:
+            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} cannot be terminated as it is not currently running.".format(server_name))
 
 
 def accept_wrapper(sock):
