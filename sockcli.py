@@ -22,18 +22,18 @@ else:
 
 
 def create_request(action, value):
-    if action == "search":
-        return dict(
-            type="text/json",
-            encoding="utf-8",
-            content=dict(action=action, value=value),
+    # if action == "search":
+    return dict(
+        type="text/json",
+        encoding="utf-8",
+        content=dict(action=action, value=value),
     )
-    else:
-        return dict(
-            type="binary/custom-client-binary-type",
-            encoding="binary",
-            content=bytes(action + value, encoding="utf-8"),
-        )
+    # else:
+    #     return dict(
+    #         type="binary/custom-client-binary-type",
+    #         encoding="binary",
+    #         content=bytes(action + value, encoding="utf-8"),
+    #     )
 
 
 def start_connection(host, port, request):
@@ -115,97 +115,102 @@ while True:
         #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
         #     print(Fore.RESET)
         #     conn.close()
-        #
-        # # Start Scorched Earth
-        # if usrin == "2":
-        #     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-        #     conn.connect(("127.0.0.1", 27888))
-        #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-        #     conn.send(b"start2")
-        #     print("")
-        #     print(Fore.RED + conn.recv(1024).decode("utf-8"))
-        #     print(Fore.RESET)
-        #     conn.close()
-        #
-        # # Stop server
-        # if usrin == "3":
-        #     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-        #     conn.connect(("127.0.0.1", 27888))
-        #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-        #     conn.send(b"stop")
-        #     print("")
-        #     print(Fore.RED + conn.recv(1024).decode("utf-8"))
-        #     print(Fore.RESET)
-        #     conn.close()
-        #
-        # # Update The Center
-        # if usrin == "4":
-        #     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-        #     conn.connect(("127.0.0.1", 27888))
-        #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-        #     conn.send(b"update1")
-        #     print("")
-        #     print(Fore.BLUE + conn.recv(1024).decode("utf-8"))
-        #     print(Fore.RESET)
-        #     conn.close()
-        #
-        # # Update Scorched Earth
-        # if usrin == "5":
-        #     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-        #     conn.connect(("127.0.0.1", 27888))
-        #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-        #     conn.send(b"update2")
-        #     print("")
-        #     print(Fore.BLUE + conn.recv(1024).decode("utf-8"))
-        #     print(Fore.RESET)
-        #     conn.close()
-        #
-        # # Status check
-        # if usrin == "6":
-        #     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-        #     conn.connect(("127.0.0.1", 27888))
-        #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-        #     conn.send(b"status")
-        #     print("")
-        #     print(Fore.YELLOW + conn.recv(1024).decode("utf-8"))
-        #     print(Fore.RESET)
-        #     conn.close()
-        #
-        # if usrin == "7":
-        #     print("                {")
-        #     print('             }   }   {')
-        #     print('            {   {  }  }')
-        #     print('             }   }{  {')
-        #     print('           _{  }{  }  }_')
-        #     print('          (  }{  }{  {  )')
-        #     print('          |""---------""| ')
-        #     print('          |             /""\\')
-        #     print('          |            | _  |')
-        #     print('          |             / | |')
-        #     print('          |             |/  |')
-        #     print('          |             /  / ')
-        #     print('          |            |  / ')
-        #     print('          |            "T"')
-        #     print('           ""---------""')
-        #     print('COFFEE')
-        #     print('IS')
-        #     print('SERVED!')
-        #     print('')
-        # if usrin == "8":
-        #     print('             .---------------------------.')
-        #     print('            /_   _   _         __  __   /|')
-        #     print('           // \ / \ / \ |_/ | |_  (_   / |')
-        #     print('          / \_  \_/ \_/ | \ | |__ ,_/ /  |')
-        #     print('         :.__________________________/   /')
-        #     print('         |  .--. .--.   .--.   .--.  |  /')
-        #     print('         | (    )    ) (    ) (    ) | /')
-        #     print("         |  '--' '--'   '--'   '--'  |/")
-        #     print("         '---------------------------' ")
-        #     print('YOUR COOKIES HAVE BEEN DONATED TO A CHARITY.')
-        #     print('')
-        #     print('THANK YOU FOR YOUR CHARITABLE DONATION.')
-        #     print('')
-        #
-        #
-        #
-        #
+
+        # Start Scorched Earth
+        if usrin == "2":
+            ark_command("scorched")
+            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
+            # conn.connect(("127.0.0.1", 27888))
+            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
+            # conn.send(b"start2")
+            # print("")
+            # print(Fore.RED + conn.recv(1024).decode("utf-8"))
+            # print(Fore.RESET)
+            # conn.close()
+
+        # Stop The Center server
+        if usrin == "3":
+            ark_command("stop_center")
+            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
+            # conn.connect(("127.0.0.1", 27888))
+            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
+            # conn.send(b"stop")
+            # print("")
+            # print(Fore.RED + conn.recv(1024).decode("utf-8"))
+            # print(Fore.RESET)
+            # conn.close()
+
+        # Update The Center
+        if usrin == "4":
+            ark_command("update_center")
+            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
+            # conn.connect(("127.0.0.1", 27888))
+            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
+            # conn.send(b"update1")
+            # print("")
+            # print(Fore.BLUE + conn.recv(1024).decode("utf-8"))
+            # print(Fore.RESET)
+            # conn.close()
+
+        # Update Scorched Earth
+        if usrin == "5":
+            ark_command("update_scorched")
+            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
+            # conn.connect(("127.0.0.1", 27888))
+            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
+            # conn.send(b"update2")
+            # print("")
+            # print(Fore.BLUE + conn.recv(1024).decode("utf-8"))
+            # print(Fore.RESET)
+            # conn.close()
+
+        # Status check
+        if usrin == "6":
+            ark_command("status_check")
+            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
+            # conn.connect(("127.0.0.1", 27888))
+            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
+            # conn.send(b"status")
+            # print("")
+            # print(Fore.YELLOW + conn.recv(1024).decode("utf-8"))
+            # print(Fore.RESET)
+            # conn.close()
+
+        if usrin == "7":
+            print("                {")
+            print('             }   }   {')
+            print('            {   {  }  }')
+            print('             }   }{  {')
+            print('           _{  }{  }  }_')
+            print('          (  }{  }{  {  )')
+            print('          |""---------""| ')
+            print('          |             /""\\')
+            print('          |            | _  |')
+            print('          |             / | |')
+            print('          |             |/  |')
+            print('          |             /  / ')
+            print('          |            |  / ')
+            print('          |            "T"')
+            print('           ""---------""')
+            print('COFFEE')
+            print('IS')
+            print('SERVED!')
+            print('')
+        if usrin == "8":
+            print('             .---------------------------.')
+            print('            /_   _   _         __  __   /|')
+            print('           // \ / \ / \ |_/ | |_  (_   / |')
+            print('          / \_  \_/ \_/ | \ | |__ ,_/ /  |')
+            print('         :.__________________________/   /')
+            print('         |  .--. .--.   .--.   .--.  |  /')
+            print('         | (    )    ) (    ) (    ) | /')
+            print("         |  '--' '--'   '--'   '--'  |/")
+            print("         '---------------------------' ")
+            print('YOUR COOKIES HAVE BEEN DONATED TO A CHARITY.')
+            print('')
+            print('THANK YOU FOR YOUR CHARITABLE DONATION.')
+            print('')
+
+
+
+
