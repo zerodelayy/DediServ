@@ -3,6 +3,60 @@ import selectors
 import json
 import io
 import struct
+from datetime import datetime
+import subprocess
+import signal
+import os
+
+server_path = {
+    "Island": 'calc.exe',
+    "Center": 'notepad.exe',
+    "Scorched": 'C:\ARK\ARKServer\ShooterGame\Binaries\Win64\ShooterGameServer.exe "ScorchedEarth_P?SessionName=UMU - Scorched Earth?RCONPort=27123?Port=7781?QueryPort=27019?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?AltSaveDirectoryName=Server_3_SC?" -NoBattlEye -NoTransferFromFiltering -log -ClusterDirOverride=C:\ARK\Cluster -clusterid=UMUsCluster',
+    "Ragnarok": 'C:\ARK\ARKServer 4\ShooterGame\Binaries\Win64\ShooterGameServer.exe "Ragnarok?SessionName=UMU - Ragnarok?RCONPort=27124?Port=7783?QueryPort=27021?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?" -NoBattlEye -NoTransferFromFiltering -log -ClusterDirOverride=C:\ARK\Cluster -clusterid=UMUsCluster',
+    "Aberration": 'C:\ARK\ARKServer\ShooterGame\Binaries\Win64\ShooterGameServer.exe "Aberration_P?SessionName=UMU - Aberration?RCONPort=27125?Port=7785?QueryPort=27023?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?AltSaveDirectoryName=Server_5_Abe?" -NoBattlEye -NoTransferFromFiltering -log',
+    "Extinction": 'C:\ARK\ARKServer\ShooterGame\Binaries\Win64\ShooterGameServer.exe "Extinction?SessionName=UMU - Extinction?RCONPort=27126?Port=7787?QueryPort=27025?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?AltSaveDirectoryName=Server_6_Ext?" -NoBattlEye -NoTransferFromFiltering -log -ClusterDirOverride=C:\ARK\Cluster -clusterid=UMUsCluster'
+}
+
+
+server_list = {
+    "Island": 0,
+    "Center": 0,
+    "Scorched": 0,
+    "Ragnarok": 0,
+    "Aberration": 0,
+    "Extinction": 0
+}
+
+class Arkserver:
+    def __init__(self):
+
+    def launch_server(self, server_name, path):
+        try:
+            servproc = subprocess.Popen(path, shell=False)
+            server_list[server_name] = servproc.pid
+            print("Server {0} launched with PID {1}.".format(server_name, servproc.pid))
+            with open("Transactions.txt", "a") as w1:
+                w1.write(
+                    "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} launched with PID {1}.".format(
+                        server_name, servproc.pid))
+        except Exception as ex:
+            print("main error: {0}".format(ex))
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "main error:{0}".format(ex))
+
+    def kill_server(self, server_name):
+        if server_list.get(server_name) != 0:
+            os.kill((server_list.get(server_name)), signal.SIGTERM)
+            print("Server {0} has been terminated.".format(server_name))
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} has been terminated.".format(
+                    server_name))
+        else:
+            print("Server {0} cannot be terminated as it is not currently running.".format(server_name))
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime(
+                    "%Y-%m-%d %H:%M:%S") + "Server {0} cannot be terminated as it is not currently running.".format(
+                    server_name))
 
 
 class Message:
@@ -77,8 +131,12 @@ class Message:
         return message
 
     def _create_response_json_content(self):
+        print(server_list)
         action = self.request.get("action")
-        if action == "center":
+        if action == "action":
+            command = self.request.get("value")
+            print(server_path.get(command))
+            Arkserver.launch_server(Arkserver, command, server_path.get(command))
             answer = "It works"
             content = {"result": answer}
         else:

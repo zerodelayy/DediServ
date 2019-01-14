@@ -51,7 +51,7 @@ host, port = "127.0.0.1", 27888
 
 
 def ark_command(command):
-    action, value = command, "dummy"
+    action, value = "action", command
     request = create_request(action, value)
     start_connection(host, port, request)
     try:
@@ -106,7 +106,7 @@ while True:
         # Start The Center
         if usrin == "1":
 
-            ark_command("center")
+            ark_command("Center")
         #     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
         #     conn.connect(("127.0.0.1", 27888))
         #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
@@ -118,7 +118,7 @@ while True:
 
         # Start Scorched Earth
         if usrin == "2":
-            ark_command("scorched")
+            ark_command("Island")
             # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
             # conn.connect(("127.0.0.1", 27888))
             # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
