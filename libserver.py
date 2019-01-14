@@ -28,6 +28,7 @@ server_list = {
     "Extinction": 0
 }
 
+
 class Arkserver:
     def __init__(self):
         self.serverstate = False
@@ -48,7 +49,7 @@ class Arkserver:
 
     def serverstatus(self, server_name):
         server_pid = server_list.get(server_name)
-        if psutil.pid_exists(server_pid):
+        if psutil.pid_exists(server_pid) and server_pid != 0:
             print("Server Status of {0} is Running".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Running".format(server_name))
@@ -61,18 +62,25 @@ class Arkserver:
 
 
     def launch_server(self, server_name, path):
-        try:
-            servproc = subprocess.Popen(path, shell=False)
-            server_list[server_name] = servproc.pid
-            print("Server {0} launched with PID {1}.".format(server_name, servproc.pid))
-            with open("Transactions.txt", "a") as w1:
-                w1.write(
-                    "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server {0} launched with PID {1}.".format(
-                        server_name, servproc.pid))
-        except Exception as ex:
-            print("main error: {0}".format(ex))
-            with open("Transactions.txt", "a") as w1:
-                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "main error:{0}".format(ex))
+        self.updatestatus(self)
+        if self.serverstatus(self, server_name) == True:
+            return "Server {0} is already running".format(server_name)
+        else:
+            if self.updatestate == True:
+                return "Update in progress, please try again"
+            try:
+                servproc = subprocess.Popen(path, shell=False)
+                server_list[server_name] = servproc.pid
+                print("Server {0} launched with PID {1}.".format(server_name, servproc.pid))
+                with open("Transactions.txt", "a") as w1:
+                    w1.write(
+                        "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server {0} launched with PID {1}.".format(
+                            server_name, servproc.pid))
+                return "Server {0} has been launched successfully".format(server_name)
+            except Exception as ex:
+                print("main error: {0}".format(ex))
+                with open("Transactions.txt", "a") as w1:
+                    w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "main error:{0}".format(ex))
 
     def kill_server(self, server_name):
         if server_list.get(server_name) != 0:
@@ -165,9 +173,8 @@ class Message:
         action = self.request.get("action")
         if action == "action":
             command = self.request.get("value")
-            print(server_path.get(command))
-            Arkserver.launch_server(Arkserver, command, server_path.get(command))
-            answer = "It works"
+            answer_message = Arkserver.launch_server(Arkserver, command, server_path.get(command))
+            answer = "Server responded: {0}".format(answer_message)
             content = {"result": answer}
         else:
             content = {"result": f'Error: invalid action "{action}".'}
