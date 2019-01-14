@@ -29,6 +29,21 @@ server_list = {
 
 class Arkserver:
     def __init__(self):
+        self.serverstate = False
+        self.updatestate = False
+
+    def updatestatus(self):
+        tasklistr = os.popen("tasklist").read()
+        if "steamcmd.exe" in tasklistr:
+            self.updatestate = True
+            print("Update in progress.")
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update in progress")
+        else:
+            self.updatestate = False
+            print("Update finished.")
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update stopped")
 
     def launch_server(self, server_name, path):
         try:

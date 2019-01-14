@@ -27,34 +27,21 @@ def accept_wrapper(sock):
     sel.register(conn, selectors.EVENT_READ, data=message)
 
 
-def serverstatus():
-    global serverstate
-    tasklistr = os.popen("tasklist").read()
-    if "ShooterGameServer.exe" in tasklistr:
-        serverstate = True
-        print("Server Status is Running")
-        with open("Transactions.txt", "a") as w1:
-            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Running")
-    else:
-        serverstate = False
-        print("Server Status is Stopped")
-        with open("Transactions.txt", "a") as w1:
-            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Stopped")
+# def serverstatus():
+#     global serverstate
+#     tasklistr = os.popen("tasklist").read()
+#     if "ShooterGameServer.exe" in tasklistr:
+#         serverstate = True
+#         print("Server Status is Running")
+#         with open("Transactions.txt", "a") as w1:
+#             w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Running")
+#     else:
+#         serverstate = False
+#         print("Server Status is Stopped")
+#         with open("Transactions.txt", "a") as w1:
+#             w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Stopped")
 
 
-def updatestatus():
-    global updatestate
-    tasklistr = os.popen("tasklist").read()
-    if "steamcmd.exe" in tasklistr:
-        updatestate = True
-        print("Update in progress.")
-        with open("Transactions.txt", "a") as w1:
-            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update in progress")
-    else:
-        updatestate = False
-        print("Update finished.")
-        with open("Transactions.txt", "a") as w1:
-            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update stopped")
 
 
 if os.path.isfile("Transactions.txt") is True:
@@ -91,8 +78,6 @@ with open("Transactions.txt", "a") as w1:
 
 sel.register(lsock, selectors.EVENT_READ, data=None)
 
-serverstate = False
-updatestate = False
 
 try:
     while True:
