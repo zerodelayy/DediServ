@@ -7,6 +7,7 @@ from datetime import datetime
 import subprocess
 import signal
 import os
+import psutil
 
 server_path = {
     "Island": 'calc.exe',
@@ -45,6 +46,20 @@ class Arkserver:
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update stopped")
 
+    def serverstatus(self, server_name):
+        server_pid = server_list.get(server_name)
+        if psutil.pid_exists(server_pid):
+            print("Server Status of {0} is Running".format(server_name))
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Running".format(server_name))
+                return True
+        else:
+            print("Server Status of {0} is Stopped".format(server_name))
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Stopped".format(server_name))
+                return False
+
+
     def launch_server(self, server_name, path):
         try:
             servproc = subprocess.Popen(path, shell=False)
@@ -52,7 +67,7 @@ class Arkserver:
             print("Server {0} launched with PID {1}.".format(server_name, servproc.pid))
             with open("Transactions.txt", "a") as w1:
                 w1.write(
-                    "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} launched with PID {1}.".format(
+                    "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server {0} launched with PID {1}.".format(
                         server_name, servproc.pid))
         except Exception as ex:
             print("main error: {0}".format(ex))
@@ -70,7 +85,7 @@ class Arkserver:
             print("Server {0} cannot be terminated as it is not currently running.".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime(
-                    "%Y-%m-%d %H:%M:%S") + "Server {0} cannot be terminated as it is not currently running.".format(
+                    "%Y-%m-%d %H:%M:%S") + " Server {0} cannot be terminated as it is not currently running.".format(
                     server_name))
 
 

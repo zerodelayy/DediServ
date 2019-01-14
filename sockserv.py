@@ -27,19 +27,19 @@ def accept_wrapper(sock):
     sel.register(conn, selectors.EVENT_READ, data=message)
 
 
-# def serverstatus():
-#     global serverstate
-#     tasklistr = os.popen("tasklist").read()
-#     if "ShooterGameServer.exe" in tasklistr:
-#         serverstate = True
-#         print("Server Status is Running")
-#         with open("Transactions.txt", "a") as w1:
-#             w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Running")
-#     else:
-#         serverstate = False
-#         print("Server Status is Stopped")
-#         with open("Transactions.txt", "a") as w1:
-#             w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Stopped")
+def serverstatus():
+    global serverstate
+    tasklistr = os.popen("tasklist").read()
+    if "ShooterGameServer.exe" in tasklistr:
+        serverstate = True
+        print("Server Status is Running")
+        with open("Transactions.txt", "a") as w1:
+            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Running")
+    else:
+        serverstate = False
+        print("Server Status is Stopped")
+        with open("Transactions.txt", "a") as w1:
+            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Stopped")
 
 
 
