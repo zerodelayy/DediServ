@@ -213,11 +213,16 @@ class Message:
             content = {"result": answer}
         elif action == "status":
             answer_message = ark.check_servers()
-            answer = "Server responded: {0}".format(answer_message)
+            answer = "Server responded: The following servers are currently running: {0}".format(answer_message)
             content = {"result": answer}
         elif action == "kill":
             server_name = self.request.get("value")
             answer_message = ark.kill_server(server_name)
+            answer = "Server responded: {0}".format(answer_message)
+            content = {"result": answer}
+        elif action == "update":
+            server_name = self.request.get("value")
+            answer_message = ark.update_server(server_name)
             answer = "Server responded: {0}".format(answer_message)
             content = {"result": answer}
         else:
