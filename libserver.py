@@ -104,6 +104,32 @@ class Arkserver:
                     server_name))
             return "Server {0} cannot be terminated as it is not currently running.".format(server_name)
 
+    def update_server(self, server_name):
+        self.updatestatus()
+        if server_name == "all" and not self.check_servers() and self.updatestate == False:
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating common ARK Server")
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating common ARK Server")
+            subprocess.Popen(r'C:\ARK\ARK Server Launcher\SteamCMD\SteamCMD.exe +runscript upd1.txt', shell=False)
+            return "Updating common ARK Server"
+        elif server_name == "Ragnarok" and not self.check_servers() and self.updatestate == False:
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating server Ragnarok")
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating server Ragnarok")
+            subprocess.Popen(r'C:\ARK\ARK Server Launcher\SteamCMD\SteamCMD.exe +runscript upd4.txt', shell=True)
+            return "Updating server Ragnarok"
+        elif server_name == "all" or server_name == "Ragnarok" and self.check_servers():
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Update: A server is still running. Cannot update.")
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: A server is still running")
+            return "One or more servers are still running, cannot proceed until all servers are shut down."
+        elif server_name == "all" or server_name == "Ragnarok" and self.updatestate == True:
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Update: Another update is still running. Cannot continue.")
+            with open("Transactions.txt", "a") as w1:
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Another update is still running")
+            return "Another update is still running. Cannot continue"
+
+
 
 class Message:
     def __init__(self, selector, sock, addr):
