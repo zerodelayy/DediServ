@@ -95,12 +95,14 @@ class Arkserver:
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} has been terminated.".format(
                     server_name))
+            return "Server {0} has been terminated.".format(server_name)
         else:
             print("Server {0} cannot be terminated as it is not currently running.".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime(
                     "%Y-%m-%d %H:%M:%S") + " Server {0} cannot be terminated as it is not currently running.".format(
                     server_name))
+            return "Server {0} cannot be terminated as it is not currently running.".format(server_name)
 
 
 class Message:
@@ -178,9 +180,18 @@ class Message:
         print(server_list)
         ark = Arkserver()
         action = self.request.get("action")
-        if action == "action":
-            command = self.request.get("value")
-            answer_message = ark.launch_server(command, server_path.get(command))
+        if action == "start":
+            server_name = self.request.get("value")
+            answer_message = ark.launch_server(server_name, server_path.get(server_name))
+            answer = "Server responded: {0}".format(answer_message)
+            content = {"result": answer}
+        elif action == "status":
+            answer_message = ark.check_servers()
+            answer = "Server responded: {0}".format(answer_message)
+            content = {"result": answer}
+        elif action == "kill":
+            server_name = self.request.get("value")
+            answer_message = ark.kill_server(server_name)
             answer = "Server responded: {0}".format(answer_message)
             content = {"result": answer}
         else:
