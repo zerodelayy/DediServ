@@ -62,8 +62,8 @@ class Arkserver:
 
 
     def launch_server(self, server_name, path):
-        self.updatestatus(self)
-        if self.serverstatus(self, server_name) == True:
+        self.updatestatus()
+        if self.serverstatus(server_name) == True:
             return "Server {0} is already running".format(server_name)
         else:
             if self.updatestate == True:
@@ -170,10 +170,11 @@ class Message:
 
     def _create_response_json_content(self):
         print(server_list)
+        ark = Arkserver()
         action = self.request.get("action")
         if action == "action":
             command = self.request.get("value")
-            answer_message = Arkserver.launch_server(Arkserver, command, server_path.get(command))
+            answer_message = ark.launch_server(command, server_path.get(command))
             answer = "Server responded: {0}".format(answer_message)
             content = {"result": answer}
         else:
