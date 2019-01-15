@@ -10,15 +10,31 @@ import selectors
 
 import libclient
 
-# from colorama import Fore, Back, Style
-# from colorama import init
-
 sel = selectors.DefaultSelector()
 
 if os.path.isfile("Errors.txt") is True:
     sys.stderr = open("Errors.log", "a")
 else:
     sys.stderr = open("Errors.log", "w")
+
+
+server_commands = {
+    0: ("status", "all"),
+    1: ("start", "Island"),
+    2: ("start", "Center"),
+    3: ("start", "Scorched"),
+    4: ("start", "Ragnarok"),
+    5: ("start", "Aberration"),
+    6: ("start", "Extinction"),
+    7: ("kill", "Island"),
+    8: ("kill", "Center"),
+    9: ("kill", "Scorched"),
+    10: ("kill", "Ragnarok"),
+    11: ("kill", "Aberration"),
+    12: ("kill", "Extinction"),
+    13: ("update", "all"),
+    14: ("update", "Ragnarok")
+}
 
 
 def create_request(action, value):
@@ -50,8 +66,8 @@ def start_connection(host, port, request):
 host, port = "127.0.0.1", 27888
 
 
-def ark_command(command):
-    action, value = "action", command
+def ark_command(action, command):
+    action, value = action, command
     request = create_request(action, value)
     start_connection(host, port, request)
     try:
@@ -89,94 +105,31 @@ while True:
     print("")
     while True:
         print("Please select one of the following options:")
+        print("0.   Check status of ARK Server")
         print("")
-        print("1. Start ARK Server - The Center")
-        print("2. Start ARK Server - Scorched Earth")
+        print("1.   Start ARK Server - The Island")
+        print("2.   Start ARK Server - The Center")
+        print("3.   Start ARK Server - Scorched Earth")
+        print("4.   Start ARK Server - Ragnarok --with CKF MOD--")
+        print("5.   Start ARK Server - Aberration (not clustered)")
+        print("6.   Start ARK Server - Extinction")
         print("")
-        print("3. Stop ARK Server")
+        print("7.   Stop ARK Server - The Island")
+        print("8.   Stop ARK Server - The Center")
+        print("9.  Stop ARK Server - Scorched Earth")
+        print("10.  Stop ARK Server - Ragnarok --with CKF MOD--")
+        print("11.  Stop ARK Server - Aberration (not clustered)")
+        print("12.  Stop ARK Server - Extinction")
         print("")
-        print("4. Update ARK Server - The Center")
-        print("5. Update ARK Server - Scorched Earth")
-        print("")
-        print("6. Check status of ARK server")
+        print("13.  Update ARK Server - All maps except Ragnarok")
+        print("14.  Update ARK Server - Ragnarok")
         print("")
         print("")
         usrin = input("Option:  ")
-
-        # Start The Center
-        if usrin == "1":
-
-            ark_command("Center")
-        #     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-        #     conn.connect(("127.0.0.1", 27888))
-        #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-        #     conn.send(b"start1")
-        #     print("")
-        #     print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-        #     print(Fore.RESET)
-        #     conn.close()
-
-        # Start Scorched Earth
-        if usrin == "2":
-            ark_command("Island")
-            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            # conn.connect(("127.0.0.1", 27888))
-            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-            # conn.send(b"start2")
-            # print("")
-            # print(Fore.RED + conn.recv(1024).decode("utf-8"))
-            # print(Fore.RESET)
-            # conn.close()
-
-        # Stop The Center server
-        if usrin == "3":
-            ark_command("stop_center")
-            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            # conn.connect(("127.0.0.1", 27888))
-            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-            # conn.send(b"stop")
-            # print("")
-            # print(Fore.RED + conn.recv(1024).decode("utf-8"))
-            # print(Fore.RESET)
-            # conn.close()
-
-        # Update The Center
-        if usrin == "4":
-            ark_command("update_center")
-            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            # conn.connect(("127.0.0.1", 27888))
-            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-            # conn.send(b"update1")
-            # print("")
-            # print(Fore.BLUE + conn.recv(1024).decode("utf-8"))
-            # print(Fore.RESET)
-            # conn.close()
-
-        # Update Scorched Earth
-        if usrin == "5":
-            ark_command("update_scorched")
-            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            # conn.connect(("127.0.0.1", 27888))
-            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-            # conn.send(b"update2")
-            # print("")
-            # print(Fore.BLUE + conn.recv(1024).decode("utf-8"))
-            # print(Fore.RESET)
-            # conn.close()
-
-        # Status check
-        if usrin == "6":
-            ark_command("status_check")
-            # conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname="ark.com")
-            # conn.connect(("127.0.0.1", 27888))
-            # print(Fore.GREEN + conn.recv(1024).decode("utf-8"))
-            # conn.send(b"status")
-            # print("")
-            # print(Fore.YELLOW + conn.recv(1024).decode("utf-8"))
-            # print(Fore.RESET)
-            # conn.close()
-
-        if usrin == "7":
+        choice = server_commands.get(usrin)
+        ark_command(choice[0], choice[1])
+        
+        if usrin == "15":
             print("                {")
             print('             }   }   {')
             print('            {   {  }  }')
@@ -196,7 +149,8 @@ while True:
             print('IS')
             print('SERVED!')
             print('')
-        if usrin == "8":
+
+        if usrin == "16":
             print('             .---------------------------.')
             print('            /_   _   _         __  __   /|')
             print('           // \ / \ / \ |_/ | |_  (_   / |')

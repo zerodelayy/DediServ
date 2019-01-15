@@ -34,6 +34,13 @@ class Arkserver:
         self.serverstate = False
         self.updatestate = False
 
+    def check_servers(self):
+        running_servers = []
+        for key, value in server_list.items():
+            if value != 0:
+                running_servers.append(key)
+        return running_servers
+
     def updatestatus(self):
         tasklistr = os.popen("tasklist").read()
         if "steamcmd.exe" in tasklistr:
@@ -59,7 +66,6 @@ class Arkserver:
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Stopped".format(server_name))
                 return False
-
 
     def launch_server(self, server_name, path):
         self.updatestatus()
