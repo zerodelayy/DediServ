@@ -4,7 +4,7 @@ and there have been many improvements in the used libraries.
 A quick to-do list:
 - [COMPLETE] Implement a more robust multi-threaded framework for messaging
 - Upgrade the SSL implementation
-- Allow for management of multiple ARK Servers at the same time
+- [COMPLETE} Allow for management of multiple ARK Servers at the same time
 - Quality of Life Improvements.
 
 Requirements
