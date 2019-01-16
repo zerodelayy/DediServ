@@ -10,8 +10,8 @@ import os
 import psutil
 
 server_path = {
-    "Island": 'calc.exe',
-    "Center": 'notepad.exe',
+    "Island": 'C:\ARK\ARKServer\ShooterGame\Binaries\Win64\ShooterGameServer.exe "TheIsland?SessionName=UMU - The Island?RCONPort=27121?Port=7777?QueryPort=27015?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?AltSaveDirectoryName=Server_1_TI?" -NoBattlEye -NoTransferFromFiltering -log -ClusterDirOverride=C:\ARK\Cluster -clusterid=UMUsCluster',
+    "Center": 'C:\ARK\ARKServer\ShooterGame\Binaries\Win64\ShooterGameServer.exe "TheCenter?SessionName=UMU - The Center?RCONPort=27122?Port=7779?QueryPort=27017?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?AltSaveDirectoryName=Server_2_TC?" -NoBattlEye -NoTransferFromFiltering -log -ClusterDirOverride=C:\ARK\Cluster -clusterid=UMUsCluster',
     "Scorched": 'C:\ARK\ARKServer\ShooterGame\Binaries\Win64\ShooterGameServer.exe "ScorchedEarth_P?SessionName=UMU - Scorched Earth?RCONPort=27123?Port=7781?QueryPort=27019?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?AltSaveDirectoryName=Server_3_SC?" -NoBattlEye -NoTransferFromFiltering -log -ClusterDirOverride=C:\ARK\Cluster -clusterid=UMUsCluster',
     "Ragnarok": 'C:\ARK\ARKServer 4\ShooterGame\Binaries\Win64\ShooterGameServer.exe "Ragnarok?SessionName=UMU - Ragnarok?RCONPort=27124?Port=7783?QueryPort=27021?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?" -NoBattlEye -NoTransferFromFiltering -log -ClusterDirOverride=C:\ARK\Cluster -clusterid=UMUsCluster',
     "Aberration": 'C:\ARK\ARKServer\ShooterGame\Binaries\Win64\ShooterGameServer.exe "Aberration_P?SessionName=UMU - Aberration?RCONPort=27125?Port=7785?QueryPort=27023?CrossARKAllowForeignDinoDownloads=true?MaxPlayers=20?AltSaveDirectoryName=Server_5_Abe?" -NoBattlEye -NoTransferFromFiltering -log',
