@@ -14,11 +14,6 @@ import signal
 sel = selectors.DefaultSelector()
 
 
-
-
-
-
-
 def accept_wrapper(sock):
     conn, addr = sock.accept()
     print("Connected with " + addr[0] + ":" + str(addr[1]))
@@ -40,8 +35,6 @@ def serverstatus():
         print("Server Status is Stopped")
         with open("Transactions.txt", "a") as w1:
             w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Stopped")
-
-
 
 
 if os.path.isfile("Transactions.txt") is True:
