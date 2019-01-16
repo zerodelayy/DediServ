@@ -4,7 +4,6 @@ import socket
 import sys
 import ssl
 import os
-import subprocess
 from datetime import datetime
 import selectors
 import traceback
