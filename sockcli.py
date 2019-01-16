@@ -130,6 +130,7 @@ while True:
         usrin = input("Option:  ")
         choice = server_commands.get(int(usrin))
         ark_command(choice[0], choice[1])
+        input("Press ENTER to continue...")
 
         if usrin == "15":
             sel.close()

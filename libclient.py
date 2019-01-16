@@ -42,7 +42,7 @@ class Message:
 
     def _write(self):
         if self._send_buffer:
-            print("Sending {0} to {1}".format(repr(self._send_buffer), self.addr))
+            #print("Sending {0} to {1}".format(repr(self._send_buffer), self.addr))
             try:
                 sent = self.sock.send(self._send_buffer)
             except BlockingIOError:
@@ -78,7 +78,7 @@ class Message:
     def _process_response_json_content(self):
         content = self.response
         result = content.get("result")
-        print(f"got result: {result}")
+        print(f"{result}")
 
     def _process_response_binary_content(self):
         content = self.response
@@ -187,7 +187,7 @@ class Message:
         if self.jsonheader["content-type"] == "text/json":
             encoding = self.jsonheader["content-encoding"]
             self.response = self._json_decode(data, encoding)
-            print("Received Response {0} from {1}".format(repr(self.response), self.addr))
+            #print("Received Response {0} from {1}".format(repr(self.response), self.addr))
             self._process_response_json_content()
         else:
             self.response = data
