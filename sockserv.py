@@ -9,7 +9,6 @@ from datetime import datetime
 import selectors
 import traceback
 import libserver
-import signal
 
 sel = selectors.DefaultSelector()
 
@@ -20,21 +19,6 @@ def accept_wrapper(sock):
     conn.setblocking(False)
     message = libserver.Message(sel, conn, addr)
     sel.register(conn, selectors.EVENT_READ, data=message)
-
-
-def serverstatus():
-    global serverstate
-    tasklistr = os.popen("tasklist").read()
-    if "ShooterGameServer.exe" in tasklistr:
-        serverstate = True
-        print("Server Status is Running")
-        with open("Transactions.txt", "a") as w1:
-            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Running")
-    else:
-        serverstate = False
-        print("Server Status is Stopped")
-        with open("Transactions.txt", "a") as w1:
-            w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status is Stopped")
 
 
 if os.path.isfile("Transactions.txt") is True:
