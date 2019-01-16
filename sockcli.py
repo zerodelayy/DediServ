@@ -126,7 +126,7 @@ while True:
         print("")
         print("")
         usrin = input("Option:  ")
-        choice = server_commands.get(usrin)
+        choice = server_commands.get(int(usrin))
         ark_command(choice[0], choice[1])
 
         if usrin == "15":
