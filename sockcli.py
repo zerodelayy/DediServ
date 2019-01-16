@@ -1,8 +1,7 @@
-# Version 0.8.0
+# Version 0.8.8
 
 import socket
 import sys
-import encodings
 import os
 import ssl
 import traceback
@@ -88,14 +87,6 @@ def ark_command(action, command):
     except KeyboardInterrupt:
         print("Keyboard interaction detected, exiting")
 
-
-
-#
-#
-# context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-# context.verify_mode = ssl.CERT_REQUIRED
-# context.check_hostname = True
-# context.load_verify_locations("crt/cert-20170526-150709.crt")
 
 while True:
     print("Welcome to the ARK Server Remote Management Client!")

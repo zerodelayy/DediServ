@@ -1,4 +1,4 @@
-# Version 0.8.0
+# Version 0.8.8
 
 import socket
 import sys
@@ -75,42 +75,3 @@ except KeyboardInterrupt:
     print("Keyboard interaction detected, exiting")
 finally:
     sel.close()
-
-
-
-# context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-# context.load_cert_chain(certfile="crt/cert-20170526-150709.crt", keyfile="crt/key-20170526-150709.pem")
-#
-#
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# print("Socket created")
-# with open("Transactions.txt", "a") as w1:
-#     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket created")
-#
-# try:
-#     s.bind((HOST, PORT))
-# except socket.error as msg:
-#     print("Bind failed. Error Code : " + str(msg[0]) + " Message " + msg[1])
-#     with open("Transactions.txt", "a") as w1:
-#         w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Bind failed. Error Code : " + str(msg[0]) + " Message " + msg[1])
-#     sys.exit()
-#
-# print("Socket bind complete")
-# with open("Transactions.txt", "a") as w1:
-#     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket bind complete")
-#
-# s.listen(1)
-# print("Socket now listening")
-# with open("Transactions.txt", "a") as w1:
-#     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Socket now listening")
-#
-#
-# while 1:
-#
-#     newsocket, fromaddr = s.accept()
-#     print("Connected with " + fromaddr[0] + ":" + str(fromaddr[1]))
-#     with open("Transactions.txt", "a") as w1:
-#         w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Connected with " + fromaddr[0] + ":" + str(fromaddr[1]))
-#     connstream = context.wrap_socket(newsocket, server_side=True, do_handshake_on_connect=True)
-#     _thread.start_new_thread(clientthread ,(connstream,))
-# s.close()
