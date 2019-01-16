@@ -87,8 +87,7 @@ def ark_command(action, command):
                 break
     except KeyboardInterrupt:
         print("Keyboard interaction detected, exiting")
-    finally:
-        sel.close()
+
 
 
 #
@@ -125,11 +124,18 @@ while True:
         print("14.  Update ARK Server - Ragnarok")
         print("")
         print("")
+        print("15.  Exit ARK Server Client")
+        print("")
+        print("")
         usrin = input("Option:  ")
         choice = server_commands.get(int(usrin))
         ark_command(choice[0], choice[1])
 
         if usrin == "15":
+            sel.close()
+            sys.exit()
+
+        if usrin == "16":
             print("                {")
             print('             }   }   {')
             print('            {   {  }  }')
@@ -150,7 +156,7 @@ while True:
             print('SERVED!')
             print('')
 
-        if usrin == "16":
+        if usrin == "17":
             print('             .---------------------------.')
             print('            /_   _   _         __  __   /|')
             print('           // \ / \ / \ |_/ | |_  (_   / |')
