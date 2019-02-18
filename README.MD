@@ -3,10 +3,10 @@ Version 0.8.8
 Refactoring has been completed, but SSL implementation is still pending. Codebase is ready to be used.
 
 A quick to-do list:
-- [COMPLETE] Implement a more robust multi-threaded framework for messaging
-- Upgrade the SSL implementation
-- [COMPLETE] Allow for management of multiple ARK Servers at the same time
-- [COMPLETE] Quality of Life Improvements.
+- [COMPLETE]    Implement a more robust multi-threaded framework for messaging
+- [PENDING]     Upgrade the SSL implementation
+- [COMPLETE]    Allow for management of multiple ARK Servers at the same time
+- [COMPLETE]    Quality of Life Improvements.
 
 Requirements
 ------------
@@ -15,11 +15,14 @@ For server component...
 
 Port 27888 TCP incoming (port can be changed)
 
+
 For server and client...
 
 Python 3.7.2
 
-psutil
+Colorama (type "pip install colorama" in a terminal/command line)
+
+Psutil (type "pip install psutil" in a terminal/command line)
 
 
 
