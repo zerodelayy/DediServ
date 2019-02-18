@@ -45,24 +45,24 @@ class Arkserver:
         tasklistr = os.popen("tasklist").read()
         if "steamcmd.exe" in tasklistr:
             self.updatestate = True
-            print("\033[1;33;40m Update in progress.")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;33;40m Update in progress.")
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update in progress")
         else:
             self.updatestate = False
-            print("\033[1;32;40m Update finished.")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;32;40m Update finished.")
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update stopped")
 
     def serverstatus(self, server_name):
         server_pid = server_list.get(server_name)
         if psutil.pid_exists(server_pid) and server_pid != 0:
-            print("\033[1;32;40m Server Status of {0} is Running".format(server_name))
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;32;40m Server Status of {0} is Running".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Running".format(server_name))
                 return True
         else:
-            print("\033[1;31;40m Server Status of {0} is Stopped".format(server_name))
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;31;40m Server Status of {0} is Stopped".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Stopped".format(server_name))
                 return False
@@ -77,27 +77,27 @@ class Arkserver:
             try:
                 servproc = subprocess.Popen(path, shell=False)
                 server_list[server_name] = servproc.pid
-                print("\033[1;32;40m Server {0} launched with PID {1}.".format(server_name, servproc.pid))
+                print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;32;40m Server {0} launched with PID {1}.".format(server_name, servproc.pid))
                 with open("Transactions.txt", "a") as w1:
                     w1.write(
                         "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server {0} launched with PID {1}.".format(
                             server_name, servproc.pid))
                 return "\033[1;32;40m Server {0} has been launched successfully".format(server_name)
             except Exception as ex:
-                print("\033[1;31;40m main error: {0}".format(ex))
+                print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;31;40m main error: {0}".format(ex))
                 with open("Transactions.txt", "a") as w1:
                     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "main error:{0}".format(ex))
 
     def kill_server(self, server_name):
         if server_list.get(server_name) != 0:
             os.kill((server_list.get(server_name)), signal.SIGTERM)
-            print("\033[1;32;40m Server {0} has been terminated.".format(server_name))
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;32;40m Server {0} has been terminated.".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} has been terminated.".format(
                     server_name))
             return "\033[1;32;40m Server {0} has been terminated.".format(server_name)
         else:
-            print("\033[1;31;40m Server {0} cannot be terminated as it is not currently running.".format(server_name))
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;31;40m Server {0} cannot be terminated as it is not currently running.".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime(
                     "%Y-%m-%d %H:%M:%S") + " Server {0} cannot be terminated as it is not currently running.".format(
