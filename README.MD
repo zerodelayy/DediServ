@@ -1,4 +1,4 @@
-Version 0.8.8
+Version 0.9.0
 -----
 Refactoring has been completed, but SSL implementation is still pending. Codebase is ready to be used.
 
