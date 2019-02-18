@@ -10,7 +10,7 @@ import os
 import psutil
 
 server_path = {
-    "Island": '',
+    "Island": 'notepad.exe',
     "Center": '',
     "Scorched": '',
     "Ragnarok": '',
@@ -45,24 +45,24 @@ class Arkserver:
         tasklistr = os.popen("tasklist").read()
         if "steamcmd.exe" in tasklistr:
             self.updatestate = True
-            print("Update in progress.")
+            print("\033[1;33;40m Update in progress.")
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update in progress")
         else:
             self.updatestate = False
-            print("Update finished.")
+            print("\033[1;32;40m Update finished.")
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update stopped")
 
     def serverstatus(self, server_name):
         server_pid = server_list.get(server_name)
         if psutil.pid_exists(server_pid) and server_pid != 0:
-            print("Server Status of {0} is Running".format(server_name))
+            print("\033[1;32;40m Server Status of {0} is Running".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Running".format(server_name))
                 return True
         else:
-            print("Server Status of {0} is Stopped".format(server_name))
+            print("\033[1;31;40m Server Status of {0} is Stopped".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Stopped".format(server_name))
                 return False
@@ -70,64 +70,64 @@ class Arkserver:
     def launch_server(self, server_name, path):
         self.updatestatus()
         if self.serverstatus(server_name) == True:
-            return "Server {0} is already running".format(server_name)
+            return "\033[1;33;40m Server {0} is already running".format(server_name)
         else:
             if self.updatestate == True:
-                return "Update in progress, please try again"
+                return "\033[1;33;40m Update in progress, please try again"
             try:
                 servproc = subprocess.Popen(path, shell=False)
                 server_list[server_name] = servproc.pid
-                print("Server {0} launched with PID {1}.".format(server_name, servproc.pid))
+                print("\033[1;32;40m Server {0} launched with PID {1}.".format(server_name, servproc.pid))
                 with open("Transactions.txt", "a") as w1:
                     w1.write(
                         "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server {0} launched with PID {1}.".format(
                             server_name, servproc.pid))
-                return "Server {0} has been launched successfully".format(server_name)
+                return "\033[1;32;40m Server {0} has been launched successfully".format(server_name)
             except Exception as ex:
-                print("main error: {0}".format(ex))
+                print("\033[1;31;40m main error: {0}".format(ex))
                 with open("Transactions.txt", "a") as w1:
                     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "main error:{0}".format(ex))
 
     def kill_server(self, server_name):
         if server_list.get(server_name) != 0:
             os.kill((server_list.get(server_name)), signal.SIGTERM)
-            print("Server {0} has been terminated.".format(server_name))
+            print("\033[1;32;40m Server {0} has been terminated.".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} has been terminated.".format(
                     server_name))
-            return "Server {0} has been terminated.".format(server_name)
+            return "\033[1;32;40m Server {0} has been terminated.".format(server_name)
         else:
-            print("Server {0} cannot be terminated as it is not currently running.".format(server_name))
+            print("\033[1;31;40m Server {0} cannot be terminated as it is not currently running.".format(server_name))
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime(
                     "%Y-%m-%d %H:%M:%S") + " Server {0} cannot be terminated as it is not currently running.".format(
                     server_name))
-            return "Server {0} cannot be terminated as it is not currently running.".format(server_name)
+            return "\033[1;31;40m Server {0} cannot be terminated as it is not currently running.".format(server_name)
 
     def update_server(self, server_name):
         self.updatestatus()
         if server_name == "all" and not self.check_servers() and self.updatestate == False:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating common ARK Server")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;33;40m Updating common ARK Server")
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating common ARK Server")
             subprocess.Popen(r'C:\ARK\ARK Server Launcher\SteamCMD\SteamCMD.exe +runscript upd1.txt', shell=False)
-            return "Updating common ARK Server"
+            return "\033[1;33;40m Updating common ARK Server"
         elif server_name == "Ragnarok" and not self.check_servers() and self.updatestate == False:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating server Ragnarok")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;33;40m Updating server Ragnarok")
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating server Ragnarok")
             subprocess.Popen(r'C:\ARK\ARK Server Launcher\SteamCMD\SteamCMD.exe +runscript upd4.txt', shell=True)
-            return "Updating server Ragnarok"
+            return "\033[1;33;40m Updating server Ragnarok"
         elif server_name == "all" or server_name == "Ragnarok" and self.check_servers():
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Update: A server is still running. Cannot update.")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;31;40m A server is still running. Cannot update.")
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: A server is still running")
-            return "One or more servers are still running, cannot proceed until all servers are shut down."
+            return "\033[1;31;40m One or more servers are still running, cannot proceed until all servers are shut down."
         elif server_name == "all" or server_name == "Ragnarok" and self.updatestate == True:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Update: Another update is still running. Cannot continue.")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;31;40m Another update is still running. Cannot continue.")
             with open("Transactions.txt", "a") as w1:
-                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Another update is still running")
-            return "Another update is still running. Cannot continue"
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;31;40m Another update is still running")
+            return "\033[1;31;40m Another update is still running. Cannot continue"
 
 
 
