@@ -39,6 +39,3 @@ For clients...
 Run the sockcli.py file. Possible commands are listed in the window. Just type in an appropriate number.
 
 
-######IMPORTANT######
------
-Keep the crt folder in the same directory as sockserv.py and sockcli.py otherwise the SSL will fail.
