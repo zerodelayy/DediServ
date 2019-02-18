@@ -6,6 +6,7 @@ import os
 import ssl
 import traceback
 import selectors
+import time
 
 import libclient
 
@@ -104,30 +105,34 @@ while True:
         print("5.   Start ARK Server - Aberration (not clustered)")
         print("6.   Start ARK Server - Extinction")
         print("")
-        print("7.   Stop ARK Server - The Island")
-        print("8.   Stop ARK Server - The Center")
-        print("9.  Stop ARK Server - Scorched Earth")
-        print("10.  Stop ARK Server - Ragnarok --with CKF MOD--")
-        print("11.  Stop ARK Server - Aberration (not clustered)")
-        print("12.  Stop ARK Server - Extinction")
+        print("11.   Stop ARK Server - The Island")
+        print("12.   Stop ARK Server - The Center")
+        print("13.  Stop ARK Server - Scorched Earth")
+        print("14.  Stop ARK Server - Ragnarok --with CKF MOD--")
+        print("15.  Stop ARK Server - Aberration (not clustered)")
+        print("16.  Stop ARK Server - Extinction")
         print("")
-        print("13.  Update ARK Server - All maps except Ragnarok")
-        print("14.  Update ARK Server - Ragnarok")
+        print("21.  Update ARK Server - All maps except Ragnarok")
+        print("22.  Update ARK Server - Ragnarok")
         print("")
         print("")
-        print("15.  Exit ARK Server Client")
+        print("Type exit to terminate the ARK client.")
         print("")
         print("")
         usrin = input("Option:  ")
         choice = server_commands.get(int(usrin))
+        print("")
+        print("")
         ark_command(choice[0], choice[1])
-        input("Press ENTER to continue...")
+        print("")
+        print("")
+        time.sleep(5)
 
-        if usrin == "15":
+        if usrin == "exit":
             sel.close()
             sys.exit()
 
-        if usrin == "16":
+        if usrin == "10":
             print("                {")
             print('             }   }   {')
             print('            {   {  }  }')
@@ -148,7 +153,7 @@ while True:
             print('SERVED!')
             print('')
 
-        if usrin == "17":
+        if usrin == "20":
             print('             .---------------------------.')
             print('            /_   _   _         __  __   /|')
             print('           // \ / \ / \ |_/ | |_  (_   / |')
