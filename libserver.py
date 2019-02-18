@@ -8,6 +8,8 @@ import subprocess
 import signal
 import os
 import psutil
+import colorama
+from colorama import Fore, Back, Style
 
 server_path = {
     "Island": 'notepad.exe',
@@ -45,24 +47,24 @@ class Arkserver:
         tasklistr = os.popen("tasklist").read()
         if "steamcmd.exe" in tasklistr:
             self.updatestate = True
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;33;40m Update in progress.")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.YELLOW + " Update in progress." + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update in progress")
         else:
             self.updatestate = False
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;32;40m Update finished.")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.GREEN + " Update finished." + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update stopped")
 
     def serverstatus(self, server_name):
         server_pid = server_list.get(server_name)
         if psutil.pid_exists(server_pid) and server_pid != 0:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;32;40m Server Status of {0} is Running".format(server_name))
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.GREEN + " Server Status of {0} is Running".format(server_name) + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Running".format(server_name))
                 return True
         else:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;31;40m Server Status of {0} is Stopped".format(server_name))
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.RED + " Server Status of {0} is Stopped".format(server_name) + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server Status of {0} is Stopped".format(server_name))
                 return False
@@ -70,64 +72,64 @@ class Arkserver:
     def launch_server(self, server_name, path):
         self.updatestatus()
         if self.serverstatus(server_name) == True:
-            return "\033[1;33;40m Server {0} is already running".format(server_name)
+            return Fore.YELLOW + "Server {0} is already running".format(server_name)
         else:
             if self.updatestate == True:
-                return "\033[1;33;40m Update in progress, please try again"
+                return Fore.YELLOW + "Update in progress, please try again"
             try:
                 servproc = subprocess.Popen(path, shell=False)
                 server_list[server_name] = servproc.pid
-                print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;32;40m Server {0} launched with PID {1}.".format(server_name, servproc.pid))
+                print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.GREEN + " Server {0} launched with PID {1}.".format(server_name, servproc.pid) + Style.RESET_ALL)
                 with open("Transactions.txt", "a") as w1:
                     w1.write(
                         "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Server {0} launched with PID {1}.".format(
                             server_name, servproc.pid))
-                return "\033[1;32;40m Server {0} has been launched successfully".format(server_name)
+                return Fore.GREEN + "Server {0} has been launched successfully".format(server_name) + Style.RESET_ALL
             except Exception as ex:
-                print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;31;40m main error: {0}".format(ex))
+                print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.RED + " main error: {0}".format(ex) + Style.RESET_ALL)
                 with open("Transactions.txt", "a") as w1:
                     w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "main error:{0}".format(ex))
 
     def kill_server(self, server_name):
         if server_list.get(server_name) != 0:
             os.kill((server_list.get(server_name)), signal.SIGTERM)
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;32;40m Server {0} has been terminated.".format(server_name))
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.GREEN + " Server {0} has been terminated.".format(server_name) + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "Server {0} has been terminated.".format(
                     server_name))
-            return "\033[1;32;40m Server {0} has been terminated.".format(server_name)
+            return Fore.GREEN + "Server {0} has been terminated.".format(server_name) + Style.RESET_ALL
         else:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " \033[1;31;40m Server {0} cannot be terminated as it is not currently running.".format(server_name))
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.RED + " Server {0} cannot be terminated as it is not currently running.".format(server_name) + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime(
                     "%Y-%m-%d %H:%M:%S") + " Server {0} cannot be terminated as it is not currently running.".format(
                     server_name))
-            return "\033[1;31;40m Server {0} cannot be terminated as it is not currently running.".format(server_name)
+            return Fore.RED + "Server {0} cannot be terminated as it is not currently running.".format(server_name) + Style.RESET_ALL
 
     def update_server(self, server_name):
         self.updatestatus()
         if server_name == "all" and not self.check_servers() and self.updatestate == False:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;33;40m Updating common ARK Server")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.YELLOW + " Updating common ARK Server" + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating common ARK Server")
             subprocess.Popen(r'C:\ARK\ARK Server Launcher\SteamCMD\SteamCMD.exe +runscript upd1.txt', shell=False)
-            return "\033[1;33;40m Updating common ARK Server"
+            return Fore.YELLOW + "Updating common ARK Server" + Style.RESET_ALL
         elif server_name == "Ragnarok" and not self.check_servers() and self.updatestate == False:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;33;40m Updating server Ragnarok")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.YELLOW + " Updating server Ragnarok" + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: Updating server Ragnarok")
             subprocess.Popen(r'C:\ARK\ARK Server Launcher\SteamCMD\SteamCMD.exe +runscript upd4.txt', shell=True)
-            return "\033[1;33;40m Updating server Ragnarok"
+            return Fore.YELLOW + " Updating server Ragnarok" + Style.RESET_ALL
         elif server_name == "all" or server_name == "Ragnarok" and self.check_servers():
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;31;40m A server is still running. Cannot update.")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.RED + " A server is still running. Cannot update." + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update: A server is still running")
-            return "\033[1;31;40m One or more servers are still running, cannot proceed until all servers are shut down."
+            return Fore.RED + " One or more servers are still running, cannot proceed until all servers are shut down." + Style.RESET_ALL
         elif server_name == "all" or server_name == "Ragnarok" and self.updatestate == True:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;31;40m Another update is still running. Cannot continue.")
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.RED + " Another update is still running. Cannot continue." + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
-                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\033[1;31;40m Another update is still running")
-            return "\033[1;31;40m Another update is still running. Cannot continue"
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\x1b[1;31;40m Another update is still running")
+            return Fore.RED + "Another update is still running. Cannot continue" + Style.RESET_ALL
 
 
 

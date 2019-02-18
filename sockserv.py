@@ -8,9 +8,11 @@ from datetime import datetime
 import selectors
 import traceback
 import libserver
+import colorama
+from colorama import Fore, Back, Style
 
 sel = selectors.DefaultSelector()
-
+colorama.init()
 
 def accept_wrapper(sock):
     conn, addr = sock.accept()

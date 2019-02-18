@@ -7,9 +7,11 @@ import ssl
 import traceback
 import selectors
 import time
-
+import colorama
 import libclient
+from colorama import Fore, Back, Style
 
+colorama.init()
 sel = selectors.DefaultSelector()
 
 if os.path.isfile("Errors.txt") is True:
