@@ -11,8 +11,11 @@ import psutil
 import colorama
 from colorama import Fore, Back, Style
 
+max_servers = 2
+# Change to maximum concurrency of servers
+
 server_path = {
-    "Island": 'notepad.exe',
+    "Island": '',
     "Center": '',
     "Scorched": '',
     "Ragnarok": '',
@@ -52,9 +55,9 @@ class Arkserver:
                 w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update in progress")
         else:
             self.updatestate = False
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.GREEN + " Update finished." + Style.RESET_ALL)
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.GREEN + " No Update operation currently running." + Style.RESET_ALL)
             with open("Transactions.txt", "a") as w1:
-                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Update stopped")
+                w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " No Update operation currently running")
 
     def serverstatus(self, server_name):
         server_pid = server_list.get(server_name)
@@ -72,7 +75,13 @@ class Arkserver:
     def launch_server(self, server_name, path):
         self.updatestatus()
         if self.serverstatus(server_name) == True:
-            return Fore.YELLOW + "Server {0} is already running".format(server_name)
+            return Fore.YELLOW + "Server {0} is already running".format(server_name) + Style.RESET_ALL
+        elif sum(value != 0 for value in server_list.values()) == max_servers:
+            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + Fore.YELLOW + " Maximum number of concurrent server instances reached, please terminate another server and try again." + Style.RESET_ALL)
+            with open("Transactions.txt", "a") as w1:
+                w1.write(
+                    "\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " Maximum number of concurrent server instances reached, please terminate another server and try again.")
+            return Fore.YELLOW + "Maximum number of concurrent server instances reached, please terminate another server and try again." + Style.RESET_ALL
         else:
             if self.updatestate == True:
                 return Fore.YELLOW + "Update in progress, please try again"

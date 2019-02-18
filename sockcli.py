@@ -56,7 +56,7 @@ def create_request(action, value):
 
 def start_connection(host, port, request):
     addr = (host, port)
-    print("Starting Connection to {}".format(addr))
+    print("Starting Connection to {}".format(addr[0]))
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setblocking(False)
     sock.connect_ex(addr)
@@ -128,7 +128,7 @@ while True:
         ark_command(choice[0], choice[1])
         print("")
         print("")
-        time.sleep(5)
+        time.sleep(3)
 
         if usrin == "exit":
             sel.close()
