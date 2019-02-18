@@ -28,14 +28,14 @@ server_commands = {
     4: ("start", "Ragnarok"),
     5: ("start", "Aberration"),
     6: ("start", "Extinction"),
-    7: ("kill", "Island"),
-    8: ("kill", "Center"),
-    9: ("kill", "Scorched"),
-    10: ("kill", "Ragnarok"),
-    11: ("kill", "Aberration"),
-    12: ("kill", "Extinction"),
-    13: ("update", "all"),
-    14: ("update", "Ragnarok")
+    11: ("kill", "Island"),
+    12: ("kill", "Center"),
+    13: ("kill", "Scorched"),
+    14: ("kill", "Ragnarok"),
+    15: ("kill", "Aberration"),
+    16: ("kill", "Extinction"),
+    21: ("update", "all"),
+    22: ("update", "Ragnarok")
 }
 
 
