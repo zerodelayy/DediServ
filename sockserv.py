@@ -1,4 +1,4 @@
-# Version 0.9.0
+# Version 1.0.0
 
 import socket
 import sys
@@ -24,10 +24,10 @@ def accept_wrapper(sock):
 
 if os.path.isfile("Transactions.txt") is True:
     with open("Transactions.txt", "a") as w1:
-        w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " ARK Socket Server has been started.")
+        w1.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " DediServ Socket Server has been started.")
 else:
     with open("Transactions.txt", "w") as w1:
-        w1.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " ARK Socket Server has been started.")
+        w1.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " DediServ Socket Server has been started.")
 
 HOST = '127.0.0.1'
 PORT = 27888
